@@ -24,19 +24,16 @@ function onSubmitForm(event) {
     event.preventDefault();
     const fetchImagesApp = new GalleryImagesApp();
     const currentInput = event.currentTarget.elements.searchQuery.value.trim();
-    fetchImagesApp.q = currentInput;
-    fetchImagesApp.options.q=currentInput;
-    if (fetchImagesApp.q === '') {
+    fetchImagesApp.query = currentInput;
+    
+    if (currentInput === '') {
         Notiflix.Notify.info('Sorry, there are no images matching your search query. Please try again.');
         return;
     }
 
-
-   
-
-    console.log(fetchImagesApp.q);
-    console.log(fetchImagesApp.options.q);
+    console.log(fetchImagesApp.qquery);
     console.log(fetchImagesApp);
+    
     fetchImagesApp.fetchImages().then(res => console.log(res));
 
 }
