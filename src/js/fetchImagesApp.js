@@ -1,37 +1,36 @@
 import axios from 'axios';
 
+const axios = require('axios').default;
 
-const PIXABAY_API_KEY = '29780910-989eab2d4bf0da575fbd77284';
-axios.defaults.baseURL =  'https://pixabay.com/api/';
+const API_KEY = '29780910-989eab2d4bf0da575fbd77284';
+const BASE_URL =  'https://pixabay.com/api/';
 
-export class GalleryImagesApp{
+export  class GalleryImagesApp{
 
     constructor() {
-        this.query = null;
-        this.page = 1;
-        this.per_page = 40;
-    }
-    options = {
-            key: `${PIXABAY_API_KEY}`,
-            q: this.query,  // q:'cat',
-            page: this.page, //this.page=1
-            per_page: this.per_page, //this.per_page = 40,
+        this.options = {
+            key: `${API_KEY}`,
+            q: null, // q:'cat',
             image_type: 'photo',
             orientation: 'horizontal',
             safesearch: true,
+            page: 1, 
+            per_page: 40, 
         };
- //?${this.options}
+    }
+ 
     async fetchImages() {
+        //`${BASE_URL}`, this.options
         try {   
-           const response = await axios.get(`${BASE_URL}`, this.options );
-        const images = await response.json();
+           const response = await axios.get(`https://pixabay.com/api/?key=29780910-989eab2d4bf0da575fbd77284&q=${this.options.q}&image_type=photo&orientation=horizontal&per_page=40`);
+        const images = await response.data;
         return images;
         } catch (error) {
             console.log(error);
        }
         
-   }
-
+    }
+    
 } 
 
     
