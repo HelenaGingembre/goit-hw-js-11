@@ -1,7 +1,8 @@
 
 import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import {GalleryImagesApp} from './js/fetchImagesApp';
+import { GalleryImagesApp } from './js/fetchImagesApp';
+import {markupImagesGallery} from './js/markupImagesGallery';
 
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -31,43 +32,37 @@ function onSubmitForm(event) {
         return;
     }
 
+
+
     console.log(fetchImagesApp.query);
     console.log(fetchImagesApp);
 
-    fetchImagesApp.fetchImages().then(images => {
-        
-        console.log(images);
-        refs.gallery.insertAdjacentHTML('beforeend', renderImagesGallery(images));
-        
-    });
-
-}
-
-function renderImagesGallery({hits}) {
-      
-    const markup = hits.map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
+    fetchImagesApp.fetchImages().
+        then(images => {
          
-        return ` <a href="${largeImageURL}">
-                    <div class="photo-card">
-                            <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-                            <div class="info">
-                                <p class="info-item">
-                                <b>Likes:${likes}</b>
-                                </p>
-                                <p class="info-item">
-                                <b>Views:${views}</b>
-                                </p>
-                                <p class="info-item">
-                                <b>Comments:${comments}</b>
-                                </p>
-                                <p class="info-item">
-                                <b>Downloads:${downloads}</b>
-                                </p>
-                            </div>
-                    </div>
-                </a>`;
-    }).join('');
+                console.log('images.hits.length - ',images.hits.length);
+                //Если бэкенд возвращает пустой массив, значит ничего подходящего найдено небыло.
+                if (images.hits.length == 0) {
+                return Notiflix.Notify.failure(
+                `Sorry, there are no images matching your search query. Please try again.`,
+                );
+            } else {
+                Notify.success(`Hooray! We found totalHits=${images.totalHits} images.`);
+                    console.log('images.hits - ', images.hits);
+                     console.log('images - ',images);
+                return images;
+            }
+        })
+        .then( hits => {
 
-    return markup;
-}
+            renderGallery(hits);
+        
+        });
 
+};
+
+
+
+function renderGallery(hits) {
+     refs.gallery.insertAdjacentHTML('beforeend', markupImagesGallery(hits));
+};
