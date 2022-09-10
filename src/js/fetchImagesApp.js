@@ -26,9 +26,10 @@ export  class GalleryImagesApp{
         //`https://pixabay.com/api/?key=29780910-989eab2d4bf0da575fbd77284&q=${this.options.q}&image_type=photo&orientation=horizontal&per_page=40`
         //`${BASE_URL}?key=${this.options.key}&q=${this.options.q}&image_type=photo&orientation=horizontal&per_page=40`
         try {   
-           const response = await axios.get(BASE_URL ,this.options);
-        const images = await response.data;
-        return images;
+           
+            const response = await axios.get(BASE_URL ,this.options);
+            const images = await response.data;
+            return images;
         } catch (error) {
             console.log('error: ',error);
        }
