@@ -16,6 +16,8 @@ const refs = {
 
 refs.formSearch.addEventListener('submit', onSubmitForm);
 
+
+
 //!!!!!!!В ответе бэкенд возвращает свойство totalHits - 
 //общее количество изображений которые подошли под критерий 
 //поиска(для бесплатного аккаунта). 
@@ -56,6 +58,7 @@ function onSubmitForm(event) {
         .then( hits => {
 
             renderGallery(hits);
+            lightbox.refresh(); //У библиотеки есть метод refresh() который обязательно нужно вызывать каждый раз после добавления новой группы карточек изображений.
         
         });
 
@@ -66,3 +69,15 @@ function onSubmitForm(event) {
 function renderGallery(hits) {
      refs.gallery.insertAdjacentHTML('beforeend', markupImagesGallery(hits));
 };
+
+//Добавить отображение большой версии изображения с библиотекой SimpleLightbox для полноценной галереи.
+// Открытие модального окна по клику на элементе галереи. 
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  captionsData: 'alt',
+});
+
+// метод lightbox.refresh() 
+//Знищує та повторно ініціалізує лайтбокс, необхідний, наприклад, для
+//  Ajax або після маніпуляцій dom
