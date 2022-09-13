@@ -27,7 +27,9 @@ function onSubmitForm(event) {
         
     if (currentInput === '') {
        Notiflix.Notify.info('Sorry, nothing has been entered in the search query. Please try again.');
-        return;
+        clearGalleryContainer();
+        refs.loadMore.classList.add('is-hidden');
+       return;
     }
     fetchImagesApp.query = currentInput;
     // console.log('fetchImagesApp: ', fetchImagesApp);
