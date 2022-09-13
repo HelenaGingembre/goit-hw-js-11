@@ -8,6 +8,10 @@ const BASE_URL =  'https://pixabay.com/api/';
 export  class GalleryImagesApp{
 
     constructor() {
+        //В ответе бэкенд возвращает свойство totalHits - 
+//общее количество изображений которые подошли под критерий 
+//поиска(для бесплатного аккаунта). 
+
         this.totalHits = 0;
         this.options = {
             params: {
@@ -46,15 +50,18 @@ export  class GalleryImagesApp{
     set query(newQuery) {
         this.options.params.q = newQuery;
     }
+    get total() {
+        return this.totalHits;
+    }
 
     incrementPage() {
         this.options.params.page += 1;
-        console.log('incrementPage: ',this.options.params.page);
+        // console.log('incrementPage: ',this.options.params.page);
    }
 
     resetPage() {
         this.options.params.page = 1;
-        console.log('resetPage: ',this.options.params.page);
+        // console.log('resetPage: ',this.options.params.page);
     }
 } 
 

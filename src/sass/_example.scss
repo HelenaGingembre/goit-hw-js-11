@@ -68,3 +68,27 @@
 .info-item:not(:last-child) {
     margin-right: 10px;
 }
+
+.loader.is-hidden {
+    visibility: hidden;
+    // transform: translateX(0);
+    transform: translateX(-1000vw);
+}
+.loader {
+    visibility: visible;
+    display: block;
+    margin: 20px auto;
+    width: 150px;
+    height: 40px;
+    line-height: 1.5;
+    font-size: 0.9em;
+    font-weight: 700;
+    background-color: #4a69bd;
+    color: #fff;
+    border-color: #fff;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0.1em;
+    box-shadow: 0 -5px 5px -5px rgb(34 60 80 / 60%);
+
+    transition: transform 0.25s ease-in-out;
+}
