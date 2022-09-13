@@ -19,23 +19,18 @@ const refs = {
 refs.formSearch.addEventListener('submit', onSubmitForm);
 refs.loadMore.addEventListener('click', fetchData);
 
- const fetchImagesApp = new GalleryImagesApp();
-
-
+const fetchImagesApp = new GalleryImagesApp();
 
 function onSubmitForm(event) {
     event.preventDefault();
     const currentInput = event.currentTarget.elements.searchQuery.value.trim();
         
     if (currentInput === '') {
-        Notiflix.Notify.info('Sorry, nothing has been entered in the search query. Please try again.');
+       Notiflix.Notify.info('Sorry, nothing has been entered in the search query. Please try again.');
         return;
     }
     fetchImagesApp.query = currentInput;
-    // console.log('fetchImagesApp.query: ',fetchImagesApp.query);
     // console.log('fetchImagesApp: ', fetchImagesApp);
-    
-    loadMoreIsVisibleToggle();
     fetchImagesApp.resetPage();
     clearGalleryContainer();
     fetchData();
@@ -50,34 +45,36 @@ function renderGallery(hits) {
 };
 
 function fetchData() {
-    
-    loadMoreIsVisibleToggle();
     fetchImagesApp.fetchImages().then(images => {
-            // console.log('images.hits.length - ',images.hits.length);
-                //Если бэкенд возвращает пустой массив, значит ничего подходящего найдено небыло.
-            if (images.hits.length == 0) {
-                Notiflix.Notify.failure(`Sorry, there are no images matching your search query. Please try again.`);
-                loadMoreIsVisibleToggle();
-                return;
-            } else {
-                Notify.success(`Hooray! We found totalHits=${fetchImagesApp.total} images.`);
-                // console.log('images.hits - ', images.hits);
-                // console.log('images - ', images);
-                // console.log('this.totalHits ', fetchImagesApp.totalHits);
-                return images;
-            }
-        })
-        .then( hits => {
+        //Если бэкенд возвращает пустой массив, значит ничего подходящего найдено небыло.
+       
+        if (images.hits.length == 0 ) {
+            console.log('images.totalHits0', images);
+            Notiflix.Notify.failure(`Sorry, there are no images matching your search query. Please try again.`);
+            // loadMoreIsVisibleToggle();
+            // return;
+        }
+        else {
+            Notiflix.Notify.success(`Hooray! We found totalHits=${fetchImagesApp.total} images.`);
+            console.log('images.hits - ', images.hits);
+            return images;
+        }
+    })
+        .then(hits => {
             renderGallery(hits);
             onPageScrolling();
             // метод lightbox.refresh() 
             //Знищує та повторно ініціалізує лайтбокс, необхідний, наприклад, для
             //Ajax або після маніпуляцій dom
-            lightbox.refresh(); 
+            lightbox.refresh();
+            if (refs.gallery.children.length === hits.totalHits) {
+                Notiflix.Notify.info(`We're sorry, but you've reached the end of search results.`);
+                loadMoreIsVisibleToggle();
+                // console.log('hits.totalHits', hits.totalHits);
+            }
             loadMoreIsVisibleToggle();
-        });
-
-}
+        })
+};
 //Добавить отображение большой версии изображения с библиотекой SimpleLightbox для полноценной галереи.
 // Открытие модального окна по клику на элементе галереи. 
 
@@ -85,8 +82,6 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
   captionsData: 'alt',
 });
-
-
 
 //  Плавная прокрутка страницы после запроса и отрисовки каждой следующей группы изображений
 function onPageScrolling() { 
@@ -111,7 +106,5 @@ function loadMoreIsVisibleToggle() {
 function getPagesCount() {
     const res = Math.ceil(fetchImagesApp.total / fetchImagesApp.options.params.per_page);
     console.log('res', res);
-    // console.log('fetchImagesApp.totalHits', fetchImagesApp.total); 
-    // console.log('fetchImagesApp.options.params.per_page', fetchImagesApp.options.params.per_page);
     return res;
 }

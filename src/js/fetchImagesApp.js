@@ -1,6 +1,4 @@
 import axios from 'axios';
-// axios.defaults.baseURL = 'https://pixabay.com/api';
-// const axios = require('axios').default;
 
 const API_KEY = '29780910-989eab2d4bf0da575fbd77284';
 const BASE_URL =  'https://pixabay.com/api/';
@@ -35,7 +33,9 @@ export  class GalleryImagesApp{
             const response = await axios.get(BASE_URL ,this.options);
             const images = await response.data;
             this.totalHits = images.total;
-            this.incrementPage();
+            if (response.status == 200) {
+                 this.incrementPage();
+            }
             return images;
 
         } catch (error) {
@@ -56,13 +56,11 @@ export  class GalleryImagesApp{
 
     incrementPage() {
         this.options.params.page += 1;
-        // console.log('incrementPage: ',this.options.params.page);
    }
 
     resetPage() {
         this.options.params.page = 1;
-        // console.log('resetPage: ',this.options.params.page);
-    }
+  }
 } 
 
     
