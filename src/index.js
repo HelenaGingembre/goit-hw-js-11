@@ -49,7 +49,7 @@ function fetchData() {
         //Если бэкенд возвращает пустой массив, значит ничего подходящего найдено небыло.
        
         if (images.hits.length == 0 ) {
-            console.log('images.totalHits0', images);
+            console.log('images', images);
             Notiflix.Notify.failure(`Sorry, there are no images matching your search query. Please try again.`);
             // loadMoreIsVisibleToggle();
             // return;
@@ -61,6 +61,12 @@ function fetchData() {
         }
     })
         .then(hits => {
+           
+            if (hits == undefined) {
+            console.log('hits undefined', hits);
+                return;
+            }
+            // clearGalleryContainer();
             renderGallery(hits);
             onPageScrolling();
             // метод lightbox.refresh() 
@@ -105,6 +111,6 @@ function loadMoreIsVisibleToggle() {
 
 function getPagesCount() {
     const res = Math.ceil(fetchImagesApp.total / fetchImagesApp.options.params.per_page);
-    console.log('res', res);
+    // console.log('res', res);
     return res;
 }

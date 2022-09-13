@@ -1,8 +1,9 @@
 
 
 
-function markupImagesGallery({hits}) {
-      
+function markupImagesGallery({ hits }) {
+    console.log('markupImagesGallery', hits);
+    
     const markup = hits.map(({ largeImageURL, webformatURL, tags, likes, views, comments, downloads }) => {
          
         return ` <a href="${largeImageURL}">

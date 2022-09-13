@@ -39,7 +39,7 @@ export  class GalleryImagesApp{
             return images;
 
         } catch (error) {
-            console.log('error: ', error);
+            console.log('error: ', error.message);
        }
     }
     
