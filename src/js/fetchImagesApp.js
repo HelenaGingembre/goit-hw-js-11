@@ -8,6 +8,7 @@ const BASE_URL =  'https://pixabay.com/api/';
 export  class GalleryImagesApp{
 
     constructor() {
+        this.totalHits = 0;
         this.options = {
             params: {
                 key: API_KEY,
@@ -29,9 +30,12 @@ export  class GalleryImagesApp{
            
             const response = await axios.get(BASE_URL ,this.options);
             const images = await response.data;
+            this.totalHits = images.total;
+            this.incrementPage();
             return images;
+
         } catch (error) {
-            console.log('error: ',error);
+            console.log('error: ', error);
        }
     }
     
@@ -41,6 +45,16 @@ export  class GalleryImagesApp{
 
     set query(newQuery) {
         this.options.params.q = newQuery;
+    }
+
+    incrementPage() {
+        this.options.params.page += 1;
+        console.log('incrementPage: ',this.options.params.page);
+   }
+
+    resetPage() {
+        this.options.params.page = 1;
+        console.log('resetPage: ',this.options.params.page);
     }
 } 
 

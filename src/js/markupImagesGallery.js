@@ -14,16 +14,16 @@ function markupImagesGallery({hits}) {
                             height = "100%" />
                             <div class="info">
                                 <p class="info-item">
-                                Likes:<b>${likes}</b>
+                                Likes:<br><b>${likes}</b>
                                 </p>
                                 <p class="info-item">
-                                Views:<b>${views}</b>
+                                Views:<br><b>${views}</b>
                                 </p>
                                 <p class="info-item">
-                                Comments:<b>${comments}</b>
+                                Comments:<br><b>${comments}</b>
                                 </p>
                                 <p class="info-item">
-                                Downloads:<b>${downloads}</b>
+                                Downloads:<br><b>${downloads}</b>
                                 </p>
                             </div>
                     </div>
